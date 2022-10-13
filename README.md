@@ -88,7 +88,7 @@ $ pyshewhart field_strengths_nT.csv xbar-s 7 --units "nT" --title "Field Strengt
 
 ### Examples
 
-A few other examples can be found in the [`examples/`][examples] directory. 
+A few other examples can be found in the [examples/](pyshewhart/examples) directory. 
 
 Several of these are recreated from a well-known textbook titled
 *Managing Quality: Integrating the Supply Chain* by S. Thomas Foster,
