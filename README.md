@@ -61,7 +61,7 @@ Notice that now the plot shows both sample numbers and elapsed seconds.
 
 ##### Console Script:
 
-Given a CSV file `voltages.csv` containing timeseries and measurement data:
+Given a CSV file `field_strengths_nT.csv` containing timeseries and measurement data:
 
 ```
 2022-10-12, 59194.401
