@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pyshewhart.control_charts API documentation</title>
+<meta name="description" content="Module containing classes to create various types of control charts." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyshewhart.control_charts</code></h1>
+</header>
+<section id="section-intro">
+<p>Module containing classes to create various types of control charts.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python
+
+&#34;&#34;&#34;
+Module containing classes to create various types of control charts.
+&#34;&#34;&#34;
+
+
+from abc import ABC, abstractmethod
+import datetime
+import functools
+import math
+
+import matplotlib
+import matplotlib.pyplot as plt
+
+from . import constants
+from . import data_types
+
+# pylint: disable=too-few-public-methods,too-many-arguments
+
+mpl_date = matplotlib.dates.date2num
+
+
+class _ABC(ABC):
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    # ABC has a docstring that appears in &#39;pdoc&#39; documentation,
+    # so simply override it to avoid confusion.
+
+
+class _ControlChartBaseClass(_ABC):
+
+    suptitle_fontsize = 20
+    title_fontsize = 12
+    axis_label_fontsize = 14
+    figsize = (12, 8)
+
+    def __init__(self, series1=None, series2=None, sample_size=5, record=None,
+                 suptitle=&#34;&#34;, title=&#34;&#34;):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        series1 : list
+            Either:
+             a list of measurements if `series2` is not provided, or
+             a list of times.
+        series2 : list
+            A list of measurements (if provided `series1` must be times).
+        sample_size : int, optional
+            Number of measurements comprising a sample.
+        record : data_types.Record, optional
+            A fully-defined record containing the data (`series1` and
+            `series2` must not be provided).
+        suptitle : str, optional
+            Overall title for the plot.
+        title : str, optional
+            Title for the first subplot.
+        &#34;&#34;&#34;
+
+        if record is not None:
+            if series1 is not None or series2 is not None:
+                raise Exception(&#34;Cannot specify &#39;series1&#39;, &#39;series2&#39; at the same time as &#39;record&#39;.&#34;)
+            assert isinstance(record, data_types.Record)
+            self.record = record
+        else:
+            if series1 is not None:
+                if series2 is not None:
+                    times = series1
+                    values = series2
+                else:
+                    times = [None for _ in series1]
+                    values = series1
+            else:
+                raise Exception(&#34;Must specify some data!&#34;)
+
+            self.record = data_types.import_times_values(
+                times=times,
+                values=values,
+                sample_size=int(sample_size))
+
+        self.suptitle = suptitle
+        self.title = title
+
+        self._in_control = True
+        self.fig = None
+        self.ax1 = None
+
+        self._init_plot()
+        self._plot()
+        self._finish_plot()
+
+    # Plotting _________________________________________________________________
+    def _init_plot(self, ):
+        self.fig = plt.figure(figsize=self.figsize, constrained_layout=True)
+        self.fig.suptitle(self.suptitle, size=self.suptitle_fontsize)
+
+    @abstractmethod
+    def _plot(self):
+        pass
+
+    def _finish_plot(self):
+        if not self.in_control:
+            plt.figtext(
+                x=0.5, y=0.5,
+                s=&#34;Not In Control&#34;,
+                color=&#34;Red&#34;, alpha=0.4, size=48,
+                verticalalignment=&#34;center&#34;,
+                horizontalalignment=&#34;center&#34;,
+                rotation=30)
+
+        plt.figtext(x=0.02, y=0.02,
+            s=&#34;Created with pyshewhart&#34;,
+            color=&#34;Gray&#34;, alpha=0.5, size=6)
+
+        if &#34;backend_inline&#34; not in matplotlib.get_backend():
+            self.fig.show()
+
+    # Misc _____________________________________________________________________
+    def _add_line_annotation(self, ax, axb, y, label, linecolor=None, linewidth=1):
+        ax.axhline(y, color=linecolor, lw=linewidth)
+
+        ticks = list(axb.get_yticks())
+        ticks.append(y)
+
+        labels = axb.get_yticklabels()
+        labels.append(label)
+
+        axb.set_yticks(ticks)
+        axb.set_yticklabels(labels)
+
+    def _format_subplot(self, ax, label):
+        ax.set_ylabel(label, fontsize=self.axis_label_fontsize)
+
+    def _plot_data_series(self, ax, y, label_top=False, label_bottom=False):
+
+        def get_sample_ticks():
+            return list(range(0, len(self.record), max(5, len(self.record)//20)))
+
+        if not self.record.has_time_info:
+            # Simply use sample numbers on the bottom
+            if label_bottom:
+                ax.set_xlabel(&#34;Sample Number&#34;, size=self.axis_label_fontsize)
+            self._plot_timescaled(
+                ax, y,
+                marker=&#34;o&#34;, linestyle=&#34;:&#34;)
+            ax.grid(axis=&#34;x&#34;, linestyle=&#34;:&#34;)
+
+        else:
+            # If we have time info, we put time on the bottom and sample number
+            # on the top.
+            ax2 = ax.twiny()
+            if label_top:
+                ax2.set_xlabel(&#34;Sample Number&#34;, size=self.axis_label_fontsize)
+
+            if isinstance(self.record.times[0], datetime.timedelta):
+                if label_bottom:
+                    ax.set_xlabel(&#34;Elapsed Time (Seconds)&#34;, size=self.axis_label_fontsize)
+                self._plot_timescaled(ax, y, marker=&#34;o&#34;, linestyle=&#34;:&#34;)
+                # TODO: Don&#39;t double-plot.. just scale the second axis appropriately
+                self._plot_timescaled(ax2, y, marker=&#34;o&#34;, linestyle=&#34;:&#34;)
+
+                x_times = [self.record.samples[i].time.total_seconds()
+                           for i in get_sample_ticks()]
+
+            elif isinstance(self.record.times[0], datetime.datetime):
+                if label_bottom:
+                    ax.set_xlabel(&#34;Date / Time&#34;, size=self.axis_label_fontsize)
+
+                self._plot_timescaled(ax, y, linestyle=&#34;:&#34;)
+                # TODO: Don&#39;t double-plot.. just scale the second axis appropriately
+                self._plot_timescaled(ax2, y, linestyle=&#34;:&#34;)
+
+                x_times = [self.record.samples[i].time for i in get_sample_ticks()]
+
+            else:
+                raise data_types.TimeException(
+                    f&#34;Plotting times of type {type(self.record.times[0])} &#34;
+                    f&#34;is not supported.&#34;)
+
+            ax2.set_xticks(x_times, labels=get_sample_ticks())
+
+            ax.grid(axis=&#34;x&#34;, alpha=0.5, linestyle=&#34;:&#34;)
+            ax2.grid(axis=&#34;x&#34;, alpha=1.0, linestyle=&#34;:&#34;)
+
+    def _plot_timescaled(self, ax, y, **kwargs):
+        if not self.record.has_time_info:
+            ax.plot(
+                list(range(len(self.record))),
+                y,
+                **kwargs)
+        elif isinstance(self.record.times[0], datetime.timedelta):
+            ax.plot(
+                [t.total_seconds() for t in self.record.times],
+                y,
+                **kwargs)
+        elif isinstance(self.record.times[0], datetime.datetime):
+            ax.plot_date(
+                mpl_date(self.record.times),
+                y,
+                **kwargs)
+        else:
+            raise data_types.TimeException(&#34;Don&#39;t know how to plot that...&#34;)
+
+    @property
+    def in_control(self):
+        return self._in_control
+
+
+class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
+
+    def __init__(self, *args, units=&#34;&#34;, check_western_elec_rules=True, **kwargs):
+        str(super().__doc__) + (        # pylint: disable=no-member, expression-not-assigned
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        units : str
+            Units of the data.
+        check_western_elec_rules : bool
+            Check if samples are in violation of the &#34;Western Electric&#34;
+            statistical rules.
+        &#34;&#34;&#34;)
+
+        self.units = units
+        self.check_western_elec_rules = check_western_elec_rules
+        self._passing_western_elec_rules = True
+
+        self.ax2 = None
+
+        super().__init__(*args, **kwargs)
+
+    @property
+    def passing_western_elec_rules(self):
+        return self._passing_western_elec_rules
+
+    @property
+    def in_control(self):
+        return self._in_control and self.passing_western_elec_rules
+
+    def _add_reference_lines(self, ax, mean, lcl, ucl):
+        axb = ax.twinx()
+        axb.set_yticks([])
+
+        aa = functools.partial(
+            self._add_line_annotation,
+            ax=ax,
+            axb=axb)
+
+        aa(y=mean, label=f&#34;Mean: {mean:5.3f}&#34;, linecolor=&#34;Black&#34;)
+
+        aa(y=ucl, label=f&#34;UCL: {ucl:5.3f}&#34;, linecolor=&#34;Red&#34;)
+        aa(y=lcl, label=f&#34;LCL: {lcl:5.3f}&#34;, linecolor=&#34;Red&#34;)
+
+        aa(y=(ucl - mean) / 3 + mean, label=&#34;+1σ&#34;, linewidth=0.3)
+        aa(y=(lcl - mean) / 3 + mean, label=&#34;-1σ&#34;, linewidth=0.3)
+
+        aa(y=(ucl - mean) * 2 / 3 + mean, label=&#34;+2σ&#34;, linewidth=0.3)
+        aa(y=(lcl - mean) * 2 / 3 + mean, label=&#34;-2σ&#34;, linewidth=0.3)
+
+        axb.set_ylim(ax.get_ylim())
+
+    @property
+    def _unit_str(self):
+        &#34;&#34;&#34;For axis labels.&#34;&#34;&#34;
+        return f&#34; ({self.units })&#34; if self.units else &#34;&#34;
+
+    @abstractmethod
+    def _plot(self):
+        pass
+
+    def _plot_means(self):
+        self.ax1.set_title(self.title, fontsize=self.title_fontsize)
+        self._format_subplot(self.ax1, &#34;Means&#34; + self._unit_str)
+        self._plot_data_series(self.ax1, self.record.means, label_top=True)
+
+        if self.check_western_elec_rules:
+            self._western_electric_rules()
+
+        # Use mean of sample ranges
+        ucl = self.record.mean_of_means + self._A2r
+        lcl = self.record.mean_of_means - self._A2r
+
+        self._add_reference_lines(ax=self.ax1, mean=self.record.mean_of_means,
+            lcl=lcl, ucl=ucl)
+
+        self._check_if_in_control(self.record.means, lcl, ucl)
+
+    def _western_electric_rules(self):
+        &#34;&#34;&#34;
+        Determine which samples of a record are in violation
+        of the common &#34;Western Electric&#34; control chart rules.
+        &#34;&#34;&#34;
+
+        def two_of_three_consecutive_outside_two_sigma_limits():
+            ucl = self.record.mean_of_means + self._A2r * 2.0 / 3.0
+            lcl = self.record.mean_of_means - self._A2r * 2.0 / 3.0
+            return indices_of_m_out_of_tol_in_n(2, 3, lcl, ucl)
+
+        def four_of_five_consecutive_outside_one_sigma_limits():
+            ucl = self.record.mean_of_means + self._A2r / 3.0
+            lcl = self.record.mean_of_means - self._A2r / 3.0
+            return indices_of_m_out_of_tol_in_n(4, 5, lcl, ucl)
+
+        def eight_consecutive_above_or_below_mean():
+            ucl = self.record.mean_of_means
+            lcl = self.record.mean_of_means
+            return indices_of_m_out_of_tol_in_n(8, 8, lcl, ucl)
+
+        def indices_of_m_out_of_tol_in_n(m, n, lcl, ucl):
+            indices = []
+            for i in range(n, len(self.record.means) + 1):
+                series = self.record.means[i - n:i]
+                for ineq, lim in [[&#34;lt&#34;, lcl], [&#34;gt&#34;, ucl]]:
+                    ooti = out_of_tol_indices(series, ineq=ineq, lim=lim)
+                    if len(ooti) &gt; m:
+                        # Compute the total indices
+                        ooti = [j + i - n for j in ooti]
+                        indices += ooti
+
+            return set(indices)
+
+        def out_of_tol_indices(series, ineq=&#34;gt&#34;, lim=0.0):
+            &#34;&#34;&#34;
+            Get the indices of list elements that are out of tolerance.
+            &#34;&#34;&#34;
+            indices = []
+            for i, val in enumerate(series):
+                if ineq == &#34;lt&#34;:
+                    if val &lt; lim:
+                        indices.append(i)
+                if ineq == &#34;gt&#34;:
+                    if val &gt; lim:
+                        indices.append(i)
+            return indices
+
+        need_legend = False
+        for f in [two_of_three_consecutive_outside_two_sigma_limits,
+                  four_of_five_consecutive_outside_one_sigma_limits,
+                  eight_consecutive_above_or_below_mean]:
+
+            rule_name = f.__name__.replace(&#34;_&#34;, &#34; &#34;).title()
+            violator_indices = sorted(f())
+
+            if len(violator_indices) &gt; 0:
+                self._passing_western_elec_rules = False
+
+                print(f&#34;Out of control points were detected using rule \&#34;{rule_name}\&#34;:&#34;)
+                for i in violator_indices:
+                    print(f&#34;{i}: &#34;, end=&#34;&#34;)
+                    print(self.record.samples[i])
+                print()
+
+                violator_means = [self.record.means[i] for i in violator_indices]
+
+                if not self.record.has_time_info:
+                    self.ax1.scatter(
+                        list(violator_indices),
+                        violator_means,
+                        s=150,
+                        alpha=0.5,
+                        label=rule_name)
+                else:
+                    violator_times = [self.record.times[i] for i in violator_indices]
+                    if isinstance(self.record.times[0], datetime.timedelta):
+                        self.ax1.scatter(
+                            [t.total_seconds() for t in violator_times],
+                            violator_means,
+                            s=150,
+                            alpha=0.5,
+                            label=rule_name)
+                    elif isinstance(self.record.times[0], datetime.datetime):
+                        self.ax1.scatter(
+                            mpl_date(violator_times),
+                            violator_means,
+                            s=150,
+                            alpha=0.5,
+                            label=rule_name)
+
+                need_legend = True
+
+        if need_legend:
+            self.ax1.legend()
+
+    # Misc _____________________________________________________________________
+    @property
+    def _A2r(self):
+        # Used in many places, so just define here to minimize repetition
+        return constants.A2[self.record.sample_size] * self.record.mean_of_ranges
+
+    def _check_if_in_control(self, arr, lcl, ucl):
+        for v in arr:
+            if not lcl &lt;= v &lt;= ucl:
+                self._in_control = False
+
+
+class XbarRControlChart(_Variable_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(2, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(2, 1, 2)
+        self._plot_ranges()
+
+    def _plot_ranges(self):
+        self._format_subplot(self.ax2, &#34;Ranges&#34; + self._unit_str)
+        self._plot_data_series(self.ax2, self.record.ranges,
+            label_bottom=not hasattr(self, &#34;ax3&#34;))
+
+        ucl = self.record.mean_of_ranges * constants.D4[self.record.sample_size]
+        lcl = self.record.mean_of_ranges * constants.D3[self.record.sample_size]
+
+        self._add_reference_lines(self.ax2, self.record.mean_of_ranges, lcl, ucl)
+
+        self._check_if_in_control(self.record.ranges, lcl, ucl)
+
+
+class XbarSControlChart(_Variable_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(2, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(2, 1, 2)
+        self._plot_stdevs()
+
+    def _plot_stdevs(self):
+        self._format_subplot(self.ax2, &#34;Std. Deviations&#34; + self._unit_str)
+        self._plot_data_series(self.ax2, self.record.stdevs,
+            label_bottom=not hasattr(self, &#34;ax3&#34;))
+
+        ucl = self.record.mean_of_stdevs * constants.B4[self.record.sample_size]
+        lcl = self.record.mean_of_stdevs * constants.B3[self.record.sample_size]
+
+        self._add_reference_lines(ax=self.ax2, mean=self.record.mean_of_stdevs,
+            lcl=lcl, ucl=ucl)
+
+        self._check_if_in_control(self.record.stdevs, lcl, ucl)
+
+
+class CUSUMControlChart(XbarRControlChart):
+
+    figsize = (12, 12)
+
+    def __init__(self, *args, cusum_target, **kwargs):
+        self.cusum_target = cusum_target
+        self._cusum_k = 0.5
+        self._cusum_h = 4.0
+        self.ax3 = None
+        super().__init__(*args, **kwargs)
+
+    def _plot(self):
+
+        self.ax1 = self.fig.add_subplot(3, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(3, 1, 2)
+        self._plot_ranges()
+
+        self.ax3 = self.fig.add_subplot(3, 1, 3)
+        self._plot_cusum()
+
+    def _plot_cusum(self):
+        self._format_subplot(self.ax3, &#34;CUSUM&#34;)
+
+        # Adjust sample stdev to estimated population stdev
+        sigma = self.record.mean_of_stdevs * constants.A3[self.record.sample_size] / 3.0
+
+        # Compute cumulative sums
+        su, sl = [0], [0]
+        for x in self.record.means:
+            su.append(max(0, x - self.cusum_target -
+                          self._cusum_k * sigma + su[-1]))
+            sl.append(min(0, x - self.cusum_target +
+                          self._cusum_k * sigma + sl[-1]))
+        # Trim the first zeros off..
+        su = su[1:]
+        sl = sl[1:]
+
+        self._plot_data_series(self.ax3, su, label_bottom=True)
+        self._plot_data_series(self.ax3, sl, label_bottom=True)
+
+        ucl = self._cusum_h * sigma
+        lcl = -1.0 * ucl
+
+        self._add_reference_lines(ax=self.ax3, mean=0,
+            lcl=lcl, ucl=ucl)
+
+        self._check_if_in_control(sl, lcl, ucl)
+        self._check_if_in_control(su, lcl, ucl)
+
+
+class PAttributeControlChart(_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(1, 1, 1)
+        self.ax1.set_title(self.title, fontsize=16)
+
+        self._format_subplot(self.ax1, &#34;Proportion&#34;)
+        self._plot_data_series(
+            self.ax1,
+            self.record.proportions_defective,
+            label_top=True, label_bottom=True)
+
+        mean_p = self.record.mean_proportion_defective
+
+        axb = self.ax1.twinx()
+        axb.set_ylim(self.ax1.get_ylim())
+        axb.set_yticks([])
+        self._add_line_annotation(self.ax1, axb, y=mean_p,
+            label=f&#34;Mean: {mean_p:5.3f}&#34;)
+
+        # Compute upper and lower control lims
+        ucl, lcl = [], []
+        for s in self.record.samples:
+            n = len(s.measurements)  # Sample size
+            q = 3 * math.sqrt(mean_p * (1 - mean_p) / n)
+            ucl.append(mean_p + q)
+            lcl.append(max(0, mean_p - q))
+
+        self._plot_timescaled(
+            self.ax1, ucl,
+            marker=&#34;_&#34;,
+            markersize=16,
+            lw=0,
+            color=&#34;Red&#34;)
+
+        self._plot_timescaled(
+            self.ax1, lcl,
+            marker=&#34;_&#34;,
+            markersize=16,
+            lw=0,
+            color=&#34;Red&#34;)
+
+        self._check_if_in_control(self.record.proportions_defective, lcl, ucl)
+
+    def _check_if_in_control(self, arr, lcl, ucl):
+        for a, l, u in zip(arr, lcl, ucl):
+            if not l &lt;= a &lt;= u:
+                self._in_control = False
+        return self.in_control</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyshewhart.control_charts.CUSUMControlChart"><code class="flex name class">
+<span>class <span class="ident">CUSUMControlChart</span></span>
+<span>(</span><span>*args, cusum_target, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>series1</code></strong> :&ensp;<code>list</code></dt>
+<dd>Either:
+a list of measurements if <code>series2</code> is not provided, or
+a list of times.</dd>
+<dt><strong><code>series2</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of measurements (if provided <code>series1</code> must be times).</dd>
+<dt><strong><code>sample_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of measurements comprising a sample.</dd>
+<dt><strong><code>record</code></strong> :&ensp;<code>data_types.Record</code>, optional</dt>
+<dd>A fully-defined record containing the data (<code>series1</code> and
+<code>series2</code> must not be provided).</dd>
+<dt><strong><code>suptitle</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Overall title for the plot.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title for the first subplot.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CUSUMControlChart(XbarRControlChart):
+
+    figsize = (12, 12)
+
+    def __init__(self, *args, cusum_target, **kwargs):
+        self.cusum_target = cusum_target
+        self._cusum_k = 0.5
+        self._cusum_h = 4.0
+        self.ax3 = None
+        super().__init__(*args, **kwargs)
+
+    def _plot(self):
+
+        self.ax1 = self.fig.add_subplot(3, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(3, 1, 2)
+        self._plot_ranges()
+
+        self.ax3 = self.fig.add_subplot(3, 1, 3)
+        self._plot_cusum()
+
+    def _plot_cusum(self):
+        self._format_subplot(self.ax3, &#34;CUSUM&#34;)
+
+        # Adjust sample stdev to estimated population stdev
+        sigma = self.record.mean_of_stdevs * constants.A3[self.record.sample_size] / 3.0
+
+        # Compute cumulative sums
+        su, sl = [0], [0]
+        for x in self.record.means:
+            su.append(max(0, x - self.cusum_target -
+                          self._cusum_k * sigma + su[-1]))
+            sl.append(min(0, x - self.cusum_target +
+                          self._cusum_k * sigma + sl[-1]))
+        # Trim the first zeros off..
+        su = su[1:]
+        sl = sl[1:]
+
+        self._plot_data_series(self.ax3, su, label_bottom=True)
+        self._plot_data_series(self.ax3, sl, label_bottom=True)
+
+        ucl = self._cusum_h * sigma
+        lcl = -1.0 * ucl
+
+        self._add_reference_lines(ax=self.ax3, mean=0,
+            lcl=lcl, ucl=ucl)
+
+        self._check_if_in_control(sl, lcl, ucl)
+        self._check_if_in_control(su, lcl, ucl)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pyshewhart.control_charts.XbarRControlChart" href="#pyshewhart.control_charts.XbarRControlChart">XbarRControlChart</a></li>
+<li>pyshewhart.control_charts._Variable_ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ABC</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyshewhart.control_charts.CUSUMControlChart.figsize"><code class="name">var <span class="ident">figsize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyshewhart.control_charts.PAttributeControlChart"><code class="flex name class">
+<span>class <span class="ident">PAttributeControlChart</span></span>
+<span>(</span><span>series1=None, series2=None, sample_size=5, record=None, suptitle='', title='')</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>series1</code></strong> :&ensp;<code>list</code></dt>
+<dd>Either:
+a list of measurements if <code>series2</code> is not provided, or
+a list of times.</dd>
+<dt><strong><code>series2</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of measurements (if provided <code>series1</code> must be times).</dd>
+<dt><strong><code>sample_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of measurements comprising a sample.</dd>
+<dt><strong><code>record</code></strong> :&ensp;<code>data_types.Record</code>, optional</dt>
+<dd>A fully-defined record containing the data (<code>series1</code> and
+<code>series2</code> must not be provided).</dd>
+<dt><strong><code>suptitle</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Overall title for the plot.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title for the first subplot.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PAttributeControlChart(_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(1, 1, 1)
+        self.ax1.set_title(self.title, fontsize=16)
+
+        self._format_subplot(self.ax1, &#34;Proportion&#34;)
+        self._plot_data_series(
+            self.ax1,
+            self.record.proportions_defective,
+            label_top=True, label_bottom=True)
+
+        mean_p = self.record.mean_proportion_defective
+
+        axb = self.ax1.twinx()
+        axb.set_ylim(self.ax1.get_ylim())
+        axb.set_yticks([])
+        self._add_line_annotation(self.ax1, axb, y=mean_p,
+            label=f&#34;Mean: {mean_p:5.3f}&#34;)
+
+        # Compute upper and lower control lims
+        ucl, lcl = [], []
+        for s in self.record.samples:
+            n = len(s.measurements)  # Sample size
+            q = 3 * math.sqrt(mean_p * (1 - mean_p) / n)
+            ucl.append(mean_p + q)
+            lcl.append(max(0, mean_p - q))
+
+        self._plot_timescaled(
+            self.ax1, ucl,
+            marker=&#34;_&#34;,
+            markersize=16,
+            lw=0,
+            color=&#34;Red&#34;)
+
+        self._plot_timescaled(
+            self.ax1, lcl,
+            marker=&#34;_&#34;,
+            markersize=16,
+            lw=0,
+            color=&#34;Red&#34;)
+
+        self._check_if_in_control(self.record.proportions_defective, lcl, ucl)
+
+    def _check_if_in_control(self, arr, lcl, ucl):
+        for a, l, u in zip(arr, lcl, ucl):
+            if not l &lt;= a &lt;= u:
+                self._in_control = False
+        return self.in_control</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pyshewhart.control_charts._ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ABC</li>
+<li>abc.ABC</li>
+</ul>
+</dd>
+<dt id="pyshewhart.control_charts.XbarRControlChart"><code class="flex name class">
+<span>class <span class="ident">XbarRControlChart</span></span>
+<span>(</span><span>*args, units='', check_western_elec_rules=True, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>series1</code></strong> :&ensp;<code>list</code></dt>
+<dd>Either:
+a list of measurements if <code>series2</code> is not provided, or
+a list of times.</dd>
+<dt><strong><code>series2</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of measurements (if provided <code>series1</code> must be times).</dd>
+<dt><strong><code>sample_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of measurements comprising a sample.</dd>
+<dt><strong><code>record</code></strong> :&ensp;<code>data_types.Record</code>, optional</dt>
+<dd>A fully-defined record containing the data (<code>series1</code> and
+<code>series2</code> must not be provided).</dd>
+<dt><strong><code>suptitle</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Overall title for the plot.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title for the first subplot.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class XbarRControlChart(_Variable_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(2, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(2, 1, 2)
+        self._plot_ranges()
+
+    def _plot_ranges(self):
+        self._format_subplot(self.ax2, &#34;Ranges&#34; + self._unit_str)
+        self._plot_data_series(self.ax2, self.record.ranges,
+            label_bottom=not hasattr(self, &#34;ax3&#34;))
+
+        ucl = self.record.mean_of_ranges * constants.D4[self.record.sample_size]
+        lcl = self.record.mean_of_ranges * constants.D3[self.record.sample_size]
+
+        self._add_reference_lines(self.ax2, self.record.mean_of_ranges, lcl, ucl)
+
+        self._check_if_in_control(self.record.ranges, lcl, ucl)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pyshewhart.control_charts._Variable_ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ABC</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pyshewhart.control_charts.CUSUMControlChart" href="#pyshewhart.control_charts.CUSUMControlChart">CUSUMControlChart</a></li>
+</ul>
+</dd>
+<dt id="pyshewhart.control_charts.XbarSControlChart"><code class="flex name class">
+<span>class <span class="ident">XbarSControlChart</span></span>
+<span>(</span><span>*args, units='', check_western_elec_rules=True, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>series1</code></strong> :&ensp;<code>list</code></dt>
+<dd>Either:
+a list of measurements if <code>series2</code> is not provided, or
+a list of times.</dd>
+<dt><strong><code>series2</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of measurements (if provided <code>series1</code> must be times).</dd>
+<dt><strong><code>sample_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of measurements comprising a sample.</dd>
+<dt><strong><code>record</code></strong> :&ensp;<code>data_types.Record</code>, optional</dt>
+<dd>A fully-defined record containing the data (<code>series1</code> and
+<code>series2</code> must not be provided).</dd>
+<dt><strong><code>suptitle</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Overall title for the plot.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title for the first subplot.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class XbarSControlChart(_Variable_ControlChartBaseClass):
+
+    def _plot(self):
+        self.ax1 = self.fig.add_subplot(2, 1, 1)
+        self._plot_means()
+
+        self.ax2 = self.fig.add_subplot(2, 1, 2)
+        self._plot_stdevs()
+
+    def _plot_stdevs(self):
+        self._format_subplot(self.ax2, &#34;Std. Deviations&#34; + self._unit_str)
+        self._plot_data_series(self.ax2, self.record.stdevs,
+            label_bottom=not hasattr(self, &#34;ax3&#34;))
+
+        ucl = self.record.mean_of_stdevs * constants.B4[self.record.sample_size]
+        lcl = self.record.mean_of_stdevs * constants.B3[self.record.sample_size]
+
+        self._add_reference_lines(ax=self.ax2, mean=self.record.mean_of_stdevs,
+            lcl=lcl, ucl=ucl)
+
+        self._check_if_in_control(self.record.stdevs, lcl, ucl)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pyshewhart.control_charts._Variable_ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ControlChartBaseClass</li>
+<li>pyshewhart.control_charts._ABC</li>
+<li>abc.ABC</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyshewhart" href="index.html">pyshewhart</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyshewhart.control_charts.CUSUMControlChart" href="#pyshewhart.control_charts.CUSUMControlChart">CUSUMControlChart</a></code></h4>
+<ul class="">
+<li><code><a title="pyshewhart.control_charts.CUSUMControlChart.figsize" href="#pyshewhart.control_charts.CUSUMControlChart.figsize">figsize</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyshewhart.control_charts.PAttributeControlChart" href="#pyshewhart.control_charts.PAttributeControlChart">PAttributeControlChart</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pyshewhart.control_charts.XbarRControlChart" href="#pyshewhart.control_charts.XbarRControlChart">XbarRControlChart</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pyshewhart.control_charts.XbarSControlChart" href="#pyshewhart.control_charts.XbarSControlChart">XbarSControlChart</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
