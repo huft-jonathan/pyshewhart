@@ -36,11 +36,11 @@ import numpy
 
 # Numbers less than this will be interpreted as timedeltas.
 # Numbers greater will be interpreted as timestamps.
-MINIMUM_TIMESTAMP = 650000000           # Approx 1990
+MINIMUM_TIMESTAMP = 650000000  # Approx 1990
 
 
 def _sample_standard_deviation(x):
-    """ Not the population standard deviation! """
+    """Not the population standard deviation!"""
     return numpy.std(x, ddof=1)
 
 
@@ -52,10 +52,11 @@ class TimeException(Exception):
     pass
 
 
-class Value():
+class Value:
     """
     Either a "variable" (continuous) value or an attribute (boolean) value.
     """
+
     def __init__(self, value, is_attribute=False):
         self._is_attribute = is_attribute
         if self.is_attribute:
@@ -97,7 +98,9 @@ class Measurement(Value):
             else:
                 self.time = datetime.timedelta(seconds=time)
         else:
-            raise TypeError(f"Unable to convert {time} of type {type(time)}to a valid time.")
+            raise TypeError(
+                f"Unable to convert {time} of type {type(time)}to a valid time."
+            )
 
     def __str__(self):
         s = self.__class__.__name__ + "\n"
@@ -111,7 +114,7 @@ class Measurement(Value):
         return s
 
 
-class Sample():
+class Sample:
     """
     Samples are collections of measurements.
     """
@@ -125,8 +128,10 @@ class Sample():
         self._measurements += self._normalize(meausurements)
 
         # Make sure we have all variable data or all attribute data..
-        assert all(m.is_variable == self._measurements[0].is_variable for
-            m in self._measurements)
+        assert all(
+            m.is_variable == self._measurements[0].is_variable
+            for m in self._measurements
+        )
 
         for cached in ["mean", "range", "stdev"]:
             if cached in self.__dict__:
@@ -215,7 +220,7 @@ class Sample():
         return s
 
 
-class Record():
+class Record:
     """
     Records are collections of samples.
     """
@@ -229,8 +234,7 @@ class Record():
         self._samples += self._normalize(samples)
 
         # Make sure we have all variable data or all attribute data..
-        assert all(s.is_variable == self._samples[0].is_variable for
-            s in self._samples)
+        assert all(s.is_variable == self._samples[0].is_variable for s in self._samples)
 
         for cached in ["mean_of_means", "mean_of_ranges", "mean_of_stdevs"]:
             if cached in self.__dict__:
@@ -331,7 +335,7 @@ class Record():
         else:
             s += f"    Mean proportion defective: {self.mean_proportion_defective}"
         # for sample in self.samples:
-            # print(sample)
+        # print(sample)
         return s
 
 
@@ -343,15 +347,20 @@ def import_times_values(values, times=None, sample_size=5, is_attribute=False):
     """
 
     if times is not None and len(times) != len(values):
-        raise ImportException(f"Length mismatch: 'times' has length {len(times)}, "
-                              f"and  'values' has length {len(values)}.")
+        raise ImportException(
+            f"Length mismatch: 'times' has length {len(times)}, "
+            f"and  'values' has length {len(values)}."
+        )
     r = Record()
     s = Sample()
     for i in range(len(values)):
-        s.append(Measurement(
-            value=values[i],
-            time=times[i] if times is not None else None,
-            is_attribute=is_attribute))
+        s.append(
+            Measurement(
+                value=values[i],
+                time=times[i] if times is not None else None,
+                is_attribute=is_attribute,
+            )
+        )
         if i % sample_size == sample_size - 1:
             r.append(s)
             s = Sample()
@@ -363,8 +372,8 @@ def import_csv_to_arrays(filename="./file.csv"):
     <time>, <value> \n
     """
     times, measurements = [], []
-    with open(filename, 'r', encoding="utf-8") as f:
-        reader = csv.reader(f, delimiter=',')
+    with open(filename, "r", encoding="utf-8") as f:
+        reader = csv.reader(f, delimiter=",")
         for row in reader:
             if len(row) == 1:
                 times.append(None)
@@ -373,10 +382,11 @@ def import_csv_to_arrays(filename="./file.csv"):
                 times.append(row[0])
                 measurements.append(float(row[1]))
             else:
-                raise ImportException("CSV file must contain either one or two columns.")
+                raise ImportException(
+                    "CSV file must contain either one or two columns."
+                )
 
     return times, measurements
-
 
 
 def demo_creating_measurements():
@@ -424,7 +434,16 @@ def demo_creating_a_record():
 def demo_importing_series_data():
     t0 = time_module.time()
     times = [t0 + t for t in [1, 3, 5, 7, 9, 11, 13, 15]]
-    values = [2, 4, 6, 8, 10, 12, 14, 16, ]
+    values = [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+    ]
     r = import_times_values(times, values, 2)
     print(r)
 
@@ -433,6 +452,7 @@ def main():
     demo_creating_measurements()
     demo_creating_a_record()
     demo_importing_series_data()
+
 
 if __name__ == "__main__":
     main()

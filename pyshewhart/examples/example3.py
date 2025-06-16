@@ -19,11 +19,11 @@ import matplotlib.pyplot as plt
 from pyshewhart.data_types import Sample, Measurement, Record
 import pyshewhart
 
-plt.style.use('grayscale')
+plt.style.use("grayscale")
 
 
 def get_example_data_foster_12_1():
-
+    # fmt: off
     # Number of cases reviewed
     case_counts = [
         100, 95, 110, 142, 100, 98, 76, 125, 100, 125, 111, 116,
@@ -35,6 +35,7 @@ def get_example_data_foster_12_1():
         60, 65, 68, 62, 56, 58, 30, 68, 54, 62, 70, 58,
         30, 68, 54, 62, 70, 58, 30, 68, 54, 62, 70, 58,
         30, 68, 54]
+    # fmt: on
 
     r = Record()
 
@@ -66,8 +67,9 @@ def main():
 
     cc = pyshewhart.PAttributeControlChart(
         record=get_example_data_foster_12_1(),
-        suptitle='Example 12-1 from Foster Text',
-        title="Conviction Rate")
+        suptitle="Example 12-1 from Foster Text",
+        title="Conviction Rate",
+    )
 
     print("Is the process in control?")
     print("Yes" if cc.in_control else "No")

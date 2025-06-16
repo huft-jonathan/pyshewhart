@@ -23,6 +23,7 @@ mpl_date = matplotlib.dates.date2num
 
 class _ABC(ABC):
     """"""
+
     # ABC has a docstring that appears in 'pdoc' documentation,
     # so simply override it to avoid confusion.
 
@@ -34,8 +35,15 @@ class _ControlChartBaseClass(_ABC):
     axis_label_fontsize = 14
     figsize = (12, 8)
 
-    def __init__(self, series1=None, series2=None, sample_size=5, record=None,
-                 suptitle="", title=""):
+    def __init__(
+        self,
+        series1=None,
+        series2=None,
+        sample_size=5,
+        record=None,
+        suptitle="",
+        title="",
+    ):
         """
         Parameters
         ----------
@@ -58,7 +66,9 @@ class _ControlChartBaseClass(_ABC):
 
         if record is not None:
             if series1 is not None or series2 is not None:
-                raise Exception("Cannot specify 'series1', 'series2' at the same time as 'record'.")
+                raise Exception(
+                    "Cannot specify 'series1', 'series2' at the same time as 'record'."
+                )
             assert isinstance(record, data_types.Record)
             self.record = record
         else:
@@ -73,9 +83,8 @@ class _ControlChartBaseClass(_ABC):
                 raise Exception("Must specify some data!")
 
             self.record = data_types.import_times_values(
-                times=times,
-                values=values,
-                sample_size=int(sample_size))
+                times=times, values=values, sample_size=int(sample_size)
+            )
 
         self.suptitle = suptitle
         self.title = title
@@ -89,7 +98,9 @@ class _ControlChartBaseClass(_ABC):
         self._finish_plot()
 
     # Plotting _________________________________________________________________
-    def _init_plot(self, ):
+    def _init_plot(
+        self,
+    ):
         self.fig = plt.figure(figsize=self.figsize, constrained_layout=True)
         self.fig.suptitle(self.suptitle, size=self.suptitle_fontsize)
 
@@ -100,16 +111,20 @@ class _ControlChartBaseClass(_ABC):
     def _finish_plot(self):
         if not self.in_control:
             plt.figtext(
-                x=0.5, y=0.5,
+                x=0.5,
+                y=0.5,
                 s="Not In Control",
-                color="Red", alpha=0.4, size=48,
+                color="Red",
+                alpha=0.4,
+                size=48,
                 verticalalignment="center",
                 horizontalalignment="center",
-                rotation=30)
+                rotation=30,
+            )
 
-        plt.figtext(x=0.02, y=0.02,
-            s="Created with pyshewhart",
-            color="Gray", alpha=0.5, size=6)
+        plt.figtext(
+            x=0.02, y=0.02, s="Created with pyshewhart", color="Gray", alpha=0.5, size=6
+        )
 
         if "backend_inline" not in matplotlib.get_backend():
             self.fig.show()
@@ -133,15 +148,13 @@ class _ControlChartBaseClass(_ABC):
     def _plot_data_series(self, ax, y, label_top=False, label_bottom=False):
 
         def get_sample_ticks():
-            return list(range(0, len(self.record), max(5, len(self.record)//20)))
+            return list(range(0, len(self.record), max(5, len(self.record) // 20)))
 
         if not self.record.has_time_info:
             # Simply use sample numbers on the bottom
             if label_bottom:
                 ax.set_xlabel("Sample Number", size=self.axis_label_fontsize)
-            self._plot_timescaled(
-                ax, y,
-                marker="o", linestyle=":")
+            self._plot_timescaled(ax, y, marker="o", linestyle=":")
             ax.grid(axis="x", linestyle=":")
 
         else:
@@ -153,13 +166,17 @@ class _ControlChartBaseClass(_ABC):
 
             if isinstance(self.record.times[0], datetime.timedelta):
                 if label_bottom:
-                    ax.set_xlabel("Elapsed Time (Seconds)", size=self.axis_label_fontsize)
+                    ax.set_xlabel(
+                        "Elapsed Time (Seconds)", size=self.axis_label_fontsize
+                    )
                 self._plot_timescaled(ax, y, marker="o", linestyle=":")
                 # TODO: Don't double-plot.. just scale the second axis appropriately
                 self._plot_timescaled(ax2, y, marker="o", linestyle=":")
 
-                x_times = [self.record.samples[i].time.total_seconds()
-                           for i in get_sample_ticks()]
+                x_times = [
+                    self.record.samples[i].time.total_seconds()
+                    for i in get_sample_ticks()
+                ]
 
             elif isinstance(self.record.times[0], datetime.datetime):
                 if label_bottom:
@@ -174,7 +191,8 @@ class _ControlChartBaseClass(_ABC):
             else:
                 raise data_types.TimeException(
                     f"Plotting times of type {type(self.record.times[0])} "
-                    f"is not supported.")
+                    f"is not supported."
+                )
 
             ax2.set_xticks(x_times, labels=get_sample_ticks())
 
@@ -183,20 +201,11 @@ class _ControlChartBaseClass(_ABC):
 
     def _plot_timescaled(self, ax, y, **kwargs):
         if not self.record.has_time_info:
-            ax.plot(
-                list(range(len(self.record))),
-                y,
-                **kwargs)
+            ax.plot(list(range(len(self.record))), y, **kwargs)
         elif isinstance(self.record.times[0], datetime.timedelta):
-            ax.plot(
-                [t.total_seconds() for t in self.record.times],
-                y,
-                **kwargs)
+            ax.plot([t.total_seconds() for t in self.record.times], y, **kwargs)
         elif isinstance(self.record.times[0], datetime.datetime):
-            ax.plot_date(
-                mpl_date(self.record.times),
-                y,
-                **kwargs)
+            ax.plot_date(mpl_date(self.record.times), y, **kwargs)
         else:
             raise data_types.TimeException("Don't know how to plot that...")
 
@@ -208,8 +217,8 @@ class _ControlChartBaseClass(_ABC):
 class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
 
     def __init__(self, *args, units="", check_western_elec_rules=True, **kwargs):
-        str(super().__doc__) + (        # pylint: disable=no-member, expression-not-assigned
-        """
+        str(super().__doc__) + (  # pylint: disable=no-member, expression-not-assigned
+            """
         Parameters
         ----------
         units : str
@@ -217,7 +226,8 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
         check_western_elec_rules : bool
             Check if samples are in violation of the "Western Electric"
             statistical rules.
-        """)
+        """
+        )
 
         self.units = units
         self.check_western_elec_rules = check_western_elec_rules
@@ -239,10 +249,7 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
         axb = ax.twinx()
         axb.set_yticks([])
 
-        aa = functools.partial(
-            self._add_line_annotation,
-            ax=ax,
-            axb=axb)
+        aa = functools.partial(self._add_line_annotation, ax=ax, axb=axb)
 
         aa(y=mean, label=f"Mean: {mean:5.3f}", linecolor="Black")
 
@@ -278,8 +285,9 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
         ucl = self.record.mean_of_means + self._A2r
         lcl = self.record.mean_of_means - self._A2r
 
-        self._add_reference_lines(ax=self.ax1, mean=self.record.mean_of_means,
-            lcl=lcl, ucl=ucl)
+        self._add_reference_lines(
+            ax=self.ax1, mean=self.record.mean_of_means, lcl=lcl, ucl=ucl
+        )
 
         self._check_if_in_control(self.record.means, lcl, ucl)
 
@@ -307,7 +315,7 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
         def indices_of_m_out_of_tol_in_n(m, n, lcl, ucl):
             indices = []
             for i in range(n, len(self.record.means) + 1):
-                series = self.record.means[i - n:i]
+                series = self.record.means[i - n : i]
                 for ineq, lim in [["lt", lcl], ["gt", ucl]]:
                     ooti = out_of_tol_indices(series, ineq=ineq, lim=lim)
                     if len(ooti) > m:
@@ -332,9 +340,11 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
             return indices
 
         need_legend = False
-        for f in [two_of_three_consecutive_outside_two_sigma_limits,
-                  four_of_five_consecutive_outside_one_sigma_limits,
-                  eight_consecutive_above_or_below_mean]:
+        for f in [
+            two_of_three_consecutive_outside_two_sigma_limits,
+            four_of_five_consecutive_outside_one_sigma_limits,
+            eight_consecutive_above_or_below_mean,
+        ]:
 
             rule_name = f.__name__.replace("_", " ").title()
             violator_indices = sorted(f())
@@ -342,7 +352,7 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
             if len(violator_indices) > 0:
                 self._passing_western_elec_rules = False
 
-                print(f"Out of control points were detected using rule \"{rule_name}\":")
+                print(f'Out of control points were detected using rule "{rule_name}":')
                 for i in violator_indices:
                     print(f"{i}: ", end="")
                     print(self.record.samples[i])
@@ -356,7 +366,8 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
                         violator_means,
                         s=150,
                         alpha=0.5,
-                        label=rule_name)
+                        label=rule_name,
+                    )
                 else:
                     violator_times = [self.record.times[i] for i in violator_indices]
                     if isinstance(self.record.times[0], datetime.timedelta):
@@ -365,14 +376,16 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
                             violator_means,
                             s=150,
                             alpha=0.5,
-                            label=rule_name)
+                            label=rule_name,
+                        )
                     elif isinstance(self.record.times[0], datetime.datetime):
                         self.ax1.scatter(
                             mpl_date(violator_times),
                             violator_means,
                             s=150,
                             alpha=0.5,
-                            label=rule_name)
+                            label=rule_name,
+                        )
 
                 need_legend = True
 
@@ -402,8 +415,9 @@ class XbarRControlChart(_Variable_ControlChartBaseClass):
 
     def _plot_ranges(self):
         self._format_subplot(self.ax2, "Ranges" + self._unit_str)
-        self._plot_data_series(self.ax2, self.record.ranges,
-            label_bottom=not hasattr(self, "ax3"))
+        self._plot_data_series(
+            self.ax2, self.record.ranges, label_bottom=not hasattr(self, "ax3")
+        )
 
         ucl = self.record.mean_of_ranges * constants.D4[self.record.sample_size]
         lcl = self.record.mean_of_ranges * constants.D3[self.record.sample_size]
@@ -424,14 +438,16 @@ class XbarSControlChart(_Variable_ControlChartBaseClass):
 
     def _plot_stdevs(self):
         self._format_subplot(self.ax2, "Std. Deviations" + self._unit_str)
-        self._plot_data_series(self.ax2, self.record.stdevs,
-            label_bottom=not hasattr(self, "ax3"))
+        self._plot_data_series(
+            self.ax2, self.record.stdevs, label_bottom=not hasattr(self, "ax3")
+        )
 
         ucl = self.record.mean_of_stdevs * constants.B4[self.record.sample_size]
         lcl = self.record.mean_of_stdevs * constants.B3[self.record.sample_size]
 
-        self._add_reference_lines(ax=self.ax2, mean=self.record.mean_of_stdevs,
-            lcl=lcl, ucl=ucl)
+        self._add_reference_lines(
+            ax=self.ax2, mean=self.record.mean_of_stdevs, lcl=lcl, ucl=ucl
+        )
 
         self._check_if_in_control(self.record.stdevs, lcl, ucl)
 
@@ -467,10 +483,8 @@ class CUSUMControlChart(XbarRControlChart):
         # Compute cumulative sums
         su, sl = [0], [0]
         for x in self.record.means:
-            su.append(max(0, x - self.cusum_target -
-                          self._cusum_k * sigma + su[-1]))
-            sl.append(min(0, x - self.cusum_target +
-                          self._cusum_k * sigma + sl[-1]))
+            su.append(max(0, x - self.cusum_target - self._cusum_k * sigma + su[-1]))
+            sl.append(min(0, x - self.cusum_target + self._cusum_k * sigma + sl[-1]))
         # Trim the first zeros off..
         su = su[1:]
         sl = sl[1:]
@@ -481,8 +495,7 @@ class CUSUMControlChart(XbarRControlChart):
         ucl = self._cusum_h * sigma
         lcl = -1.0 * ucl
 
-        self._add_reference_lines(ax=self.ax3, mean=0,
-            lcl=lcl, ucl=ucl)
+        self._add_reference_lines(ax=self.ax3, mean=0, lcl=lcl, ucl=ucl)
 
         self._check_if_in_control(sl, lcl, ucl)
         self._check_if_in_control(su, lcl, ucl)
@@ -498,15 +511,16 @@ class PAttributeControlChart(_ControlChartBaseClass):
         self._plot_data_series(
             self.ax1,
             self.record.proportions_defective,
-            label_top=True, label_bottom=True)
+            label_top=True,
+            label_bottom=True,
+        )
 
         mean_p = self.record.mean_proportion_defective
 
         axb = self.ax1.twinx()
         axb.set_ylim(self.ax1.get_ylim())
         axb.set_yticks([])
-        self._add_line_annotation(self.ax1, axb, y=mean_p,
-            label=f"Mean: {mean_p:5.3f}")
+        self._add_line_annotation(self.ax1, axb, y=mean_p, label=f"Mean: {mean_p:5.3f}")
 
         # Compute upper and lower control lims
         ucl, lcl = [], []
@@ -517,18 +531,12 @@ class PAttributeControlChart(_ControlChartBaseClass):
             lcl.append(max(0, mean_p - q))
 
         self._plot_timescaled(
-            self.ax1, ucl,
-            marker="_",
-            markersize=16,
-            lw=0,
-            color="Red")
+            self.ax1, ucl, marker="_", markersize=16, lw=0, color="Red"
+        )
 
         self._plot_timescaled(
-            self.ax1, lcl,
-            marker="_",
-            markersize=16,
-            lw=0,
-            color="Red")
+            self.ax1, lcl, marker="_", markersize=16, lw=0, color="Red"
+        )
 
         self._check_if_in_control(self.record.proportions_defective, lcl, ucl)
 
