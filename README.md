@@ -18,7 +18,7 @@ it can also be evaluated against the well-known
 "[Western Electric rule set](https://en.wikipedia.org/wiki/Western_Electric_rules)"
 to detect additional statistical anomalies:
 
-<img src="./doc/img/sample.svg" width="800" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/sample.svg" width="800" />
 
 ------------------------------------------------------------------------
 
@@ -36,15 +36,15 @@ measurements = [random.random() for _ in range(200)]
 pyshewhart.XbarR(measurements)
 ```
 
-<img src="./doc/img/simple1.svg" width="600" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/simple1.svg" width="600" />
 
 ------------------------------------------------------------------------
 
 If you have time information, you can also provide that. Supported time types include:
 
  - `datetime`
- - `timedelta` 
- - various string formats (as supported by `dateutil.parser.parse`) 
+ - `timedelta`
+ - various string formats (as supported by `dateutil.parser.parse`)
  - Unix timestamps
  - elapsed seconds (`int` or `float`)
 
@@ -55,7 +55,7 @@ pyshewhart.XbarR(seconds, measurements)
 
 Notice that now the plot shows both sample numbers and elapsed seconds.
 
-<img src="./doc/img/simple2.svg" width="600" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/simple2.svg" width="600" />
 
 ------------------------------------------------------------------------
 
@@ -88,25 +88,25 @@ $ pyshewhart field_strengths_nT.csv xbar-s 7 --units "nT" --title "Field Strengt
 
 ### Examples
 
-A few other examples can be found in the [examples/](pyshewhart/examples) directory. 
+A few other examples can be found in the [examples/](pyshewhart/examples) directory.
 
 Several of these are recreated from a well-known textbook titled
 *Managing Quality: Integrating the Supply Chain* by S. Thomas Foster,
 including this X̅ and R chart:
 
-<img src="./doc/img/example2.svg" width="500" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/example2.svg" width="500" />
 
 Also a P-attribute chart:
 
-<img src="./doc/img/example3.svg" width="500" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/example3.svg" width="500" />
 
 The following shows the capabilities of a CUSUM chart to detect
-small amounts of drift. 
+small amounts of drift.
 
 First we see normal data:
 
-<img src="./doc/img/example4a.svg" width="500" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/example4a.svg" width="500" />
 
 And here we see the chart detecting a small amount of simulated drift:
 
-<img src="./doc/img/example4b.svg" width="500" />
+<img src="https://github.com/huft-jonathan/pyshewhart/raw/main/doc/img/example4b.svg" width="500" />
