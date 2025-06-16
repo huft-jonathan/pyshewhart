@@ -23,7 +23,6 @@ setup(
     author_email="jhuft@protonmail.ch",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Developers",
         "Intended Audience :: Manufacturing",
         'Topic :: Software Development :: Libraries :: Python Modules'
         "Topic :: Scientific/Engineering :: Information Analysis",
