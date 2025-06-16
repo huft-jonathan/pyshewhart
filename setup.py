@@ -15,15 +15,16 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="pyshewhart",
-    version="0.9.0",
+    version="1.0.0",
     description="Statistical Process Control Charts",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="David Jonathan Huft",
     author_email="jhuft@protonmail.ch",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
+        "Intended Audience :: Manufacturing",
         'Topic :: Software Development :: Libraries :: Python Modules'
         "Topic :: Scientific/Engineering :: Information Analysis",
         "License :: OSI Approved :: MIT License",
