@@ -18,8 +18,6 @@ from . import data_types
 
 # pylint: disable=too-few-public-methods,too-many-arguments
 
-mpl_date = matplotlib.dates.date2num
-
 
 class _ABC(ABC):
     """"""
@@ -205,7 +203,12 @@ class _ControlChartBaseClass(_ABC):
         elif isinstance(self.record.times[0], datetime.timedelta):
             ax.plot([t.total_seconds() for t in self.record.times], y, **kwargs)
         elif isinstance(self.record.times[0], datetime.datetime):
-            ax.plot_date(mpl_date(self.record.times), y, **kwargs)
+            # NOTE: matplotlib removed `Axes.plot_date()` in 3.11. Plotting the
+            # raw datetime objects with `plot()` works across matplotlib
+            # versions (the units framework auto-configures the date axis), and
+            # `marker="o"` preserves the circle markers that `plot_date`'s
+            # default `fmt='o'` used to draw. See issue #2.
+            ax.plot(self.record.times, y, marker="o", **kwargs)
         else:
             raise data_types.TimeException("Don't know how to plot that...")
 
@@ -379,8 +382,10 @@ class _Variable_ControlChartBaseClass(_ControlChartBaseClass):
                             label=rule_name,
                         )
                     elif isinstance(self.record.times[0], datetime.datetime):
+                        # Plot raw datetimes so this stays on the same date-axis
+                        # units as the main series (see issue #2 / `plot_date`).
                         self.ax1.scatter(
-                            mpl_date(violator_times),
+                            violator_times,
                             violator_means,
                             s=150,
                             alpha=0.5,
