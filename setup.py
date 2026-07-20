@@ -15,7 +15,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="pyshewhart",
-    version="1.0.1",
+    version="1.1.0",
     description="Statistical Process Control Charts",
     long_description=long_description,
     long_description_content_type="text/markdown",
