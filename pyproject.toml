@@ -3,3 +3,11 @@
 # https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
 requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+# The compatibility smoke tests run under matplotlib's non-interactive "Agg"
+# backend (see tests/conftest.py), where pyshewhart's fig.show() call emits a
+# harmless UserWarning.  Silence just that one message so real problems stand out.
+filterwarnings = [
+    "ignore:.*FigureCanvasAgg is non-interactive.*:UserWarning",
+]
